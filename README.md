@@ -1,59 +1,68 @@
-# fable-mindset
+# fable skills
 
-A Claude Code skill that upgrades how Claude Opus 4.8 (or any Claude model)
-reasons, decides, and executes on engineering tasks — distilled from the
-operating doctrine of Claude Fable 5.
+A set of four narrowly-scoped [Agent Skills](https://code.claude.com/docs/en/skills)
+that encode software-engineering judgment heuristics for coding agents such
+as Claude Code and Codex: when to act vs. ask, how to debug by hypothesis,
+how much verification a change needs, and how to review code for
+consequential defects.
 
-It teaches the judgment layer that separates strong agents from average ones:
+Current version: **0.2.0** (see [CHANGELOG.md](CHANGELOG.md)). MIT licensed.
 
-- **Task classification** — assessment vs. change, and calibrating effort to stakes
-- **Planning big work** — risk-first step ordering and visible progress tracking
-- **Codebase navigation** — trace from entry points and precedents instead of browsing
-- **Evidence-first investigation** — read before editing, observe before explaining
-- **Hypothesis-driven debugging** — shrink the search space instead of guess-and-check
-- **Smallest correct change** — diffs that read like the original author wrote them
-- **Autonomy judgment** — act on reversible steps, hard-stop on destructive ones
-- **Adversarial self-review** — attack your own change (edges, nulls, races, retries) before shipping it
-- **Code review method** — confirmed consequential findings over comment count
-- **Verification discipline** — a ladder of evidence, and honest reporting of the rung reached
-- **Outcome-first communication** — final messages that lead with what happened
+## The skills
 
-## Layout
+| Skill | Loads when | Core words |
+|---|---|---|
+| `fable-mindset` | Multi-step work with ambiguity, unfamiliar code, or drift | ~520 |
+| `fable-debugging` | Diagnosing a failure whose cause is unknown | ~510 |
+| `fable-verification` | Before reporting a nontrivial change complete | ~480 |
+| `fable-code-review` | Reviewing a PR, diff, or patch for defects | ~400 |
 
-```
-.claude/skills/fable-mindset/
-├── SKILL.md                     # Core doctrine — loaded when the skill triggers
-└── references/
-    ├── code-review.md           # Reviewing diffs/PRs: verify-before-flag, severity ranking
-    ├── codebase-navigation.md   # Exploring unfamiliar code with purpose
-    ├── debugging.md             # Full hypothesis-testing debug loop + anti-patterns
-    ├── edge-cases.md            # Adversarial self-review: boundaries, nulls, time, races
-    ├── verification.md          # Verification protocol and the final gate
-    └── communication.md         # Report structure, style, and honesty patterns
-```
-
-The SKILL.md holds the essentials; the reference files are progressive
-disclosure — the model reads them only when a task calls for that depth.
+Each skill declares explicit **non-triggers** (small clear edits, pure Q&A,
+docs tweaks, conversation) so it stays out of context when irrelevant, and
+each defers to system instructions, user direction, repository policy, and
+the environment's actual tooling. Deeper material lives in `references/`
+files loaded only on demand (planning, codebase navigation, communication,
+edge-case categories).
 
 ## Install
 
-**Per-project:** this repo already has it in place — clone and open Claude
-Code in the repo root; the skill loads from `.claude/skills/` automatically.
+**Claude Code, per-project:** the skills live in `.claude/skills/` and load
+automatically when a session opens in this repo.
 
-**Globally (all projects):** copy the skill folder into your personal skills
-directory:
+**Claude Code, global (all projects):**
 
 ```bash
-cp -r .claude/skills/fable-mindset ~/.claude/skills/
+cp -r .claude/skills/fable-* ~/.claude/skills/
 ```
 
-## Use
+**Codex / other agents:** see [packaging/codex/README.md](packaging/codex/README.md)
+for an `AGENTS.md` snippet that points Codex at the same skill files.
 
-The skill's description triggers it automatically at the start of nontrivial
-engineering tasks. You can also invoke it explicitly:
+Skills can also be invoked explicitly (`/fable-debugging`) or by asking the
+model to read the relevant `SKILL.md`.
 
-```
-/fable-mindset
-```
+## Evaluation
 
-or tell the model: "load the fable-mindset skill before starting."
+`evals/` contains an A/B evaluation suite: paired runs with and without the
+skills on realistic tasks, objective holdout graders (plain Python, no
+dependencies), process rubrics with expected behaviors and failure cases,
+and cost tracking. Method: [evals/README.md](evals/README.md). Current
+evidence: [evals/RESULTS.md](evals/RESULTS.md).
+
+**No unsupported performance claims are made.** Treat the skills as
+hypotheses about useful guidance until the eval results in RESULTS.md say
+otherwise at adequate sample size.
+
+## Provenance
+
+These skills were authored with the assistance of a Claude model, distilling
+general agentic-engineering practices (hypothesis-driven debugging,
+verification laddering, minimal-diff discipline). "fable" is used here as a
+family name for the skill set; it does not imply endorsement by, or
+measured equivalence to, any particular model or vendor.
+
+## Versioning
+
+Semantic versioning. The `version` field in each SKILL.md frontmatter tracks
+the release in CHANGELOG.md; skills in one release are tested together and
+should be installed together.
