@@ -181,8 +181,17 @@ a test exercises what you changed. The standard:
 - **If you cannot verify, say so explicitly** — "I could not run the
   integration tests because X; the change is verified up to unit level" —
   rather than letting silence imply full verification.
+- **Before verifying, attack your own change once.** Switch from author to
+  adversary: what input, state, or timing makes this wrong? Empty inputs,
+  nulls, concurrent access, retries, partial failure. The bugs are never on
+  the path you were watching while you wrote the code. Category checklist:
+  `references/edge-cases.md`.
 
 Detailed protocol: `references/verification.md`.
+
+When the task IS a review — of a PR, a diff, or your own finished work —
+value is confirmed consequential findings, not comment count. Method:
+`references/code-review.md`.
 
 ## 8. Report like a professional
 
