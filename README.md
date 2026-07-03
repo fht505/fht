@@ -7,6 +7,8 @@ operating doctrine of Claude Fable 5.
 It teaches the judgment layer that separates strong agents from average ones:
 
 - **Task classification** — assessment vs. change, and calibrating effort to stakes
+- **Planning big work** — risk-first step ordering and visible progress tracking
+- **Codebase navigation** — trace from entry points and precedents instead of browsing
 - **Evidence-first investigation** — read before editing, observe before explaining
 - **Hypothesis-driven debugging** — shrink the search space instead of guess-and-check
 - **Smallest correct change** — diffs that read like the original author wrote them
@@ -20,6 +22,7 @@ It teaches the judgment layer that separates strong agents from average ones:
 .claude/skills/fable-mindset/
 ├── SKILL.md                     # Core doctrine — loaded when the skill triggers
 └── references/
+    ├── codebase-navigation.md   # Exploring unfamiliar code with purpose
     ├── debugging.md             # Full hypothesis-testing debug loop + anti-patterns
     ├── verification.md          # Verification protocol and the final gate
     └── communication.md         # Report structure, style, and honesty patterns

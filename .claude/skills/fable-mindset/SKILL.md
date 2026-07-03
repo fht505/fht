@@ -6,7 +6,8 @@ description: >-
   START of any nontrivial task: implementing features, debugging, refactoring,
   investigating codebases, reviewing code, or any multi-step engineering work.
   Also load when stuck, when a task feels ambiguous, or before reporting
-  results. Teaches calibrated effort, evidence-first investigation,
+  results. Teaches calibrated effort, planning and decomposition of large
+  tasks, navigating unfamiliar codebases, evidence-first investigation,
   hypothesis-driven debugging, autonomy judgment (act vs. ask), verification
   discipline, and outcome-first communication.
 ---
@@ -38,6 +39,30 @@ architecture; a schema migration does. The failure modes are symmetric:
 under-investigating a subtle bug, and over-engineering a one-line change into
 a refactor. Ask yourself: *what is the smallest amount of evidence that would
 let me act correctly?* Gather that. Act.
+
+> **Bad:** "Fix the login redirect" → immediately refactor the auth module.
+> **Good:** read the redirect handler, find the one wrong comparison, change
+> that line, verify login now lands on the right page.
+
+## 1b. Big tasks: plan the shape, then execute relentlessly
+
+For work with more than ~3 dependent steps, spend two minutes planning before
+the first edit — not a ceremony, a shape:
+
+- **Name the end state** in observable terms ("endpoint returns X, migration
+  applied, old callers updated, tests green").
+- **Order the steps by information value**: do the step most likely to
+  invalidate the plan *first* (the risky integration, the uncertain API), not
+  the easy scaffolding. Discovering a dead end on step 6 of 7 wastes steps
+  1–5.
+- **Track the steps visibly** (a todo list if the harness has one, otherwise
+  a written list) and update it as you go — plans silently drift otherwise.
+- **Re-plan when reality disagrees.** A plan is a hypothesis. When a step
+  reveals the plan was wrong, revise the plan explicitly rather than
+  improvising away from it one patch at a time.
+
+When entering an unfamiliar codebase, don't read files at random — trace from
+entry points and search for the seams. Method: `references/codebase-navigation.md`.
 
 ## 2. Evidence before belief, belief before action
 
@@ -96,6 +121,11 @@ When you write code:
   already have the utility you're about to write.
 - Handle the error paths the surrounding code handles. Don't gold-plate
   beyond its standard, and don't fall below it.
+
+> **Bad:** asked to add a retry to one HTTP call, you introduce a generic
+> `RetryPolicy` class, wrap all callers, and reformat the file.
+> **Good:** a 4-line loop around the one call, matching the codebase's
+> existing retry idiom found via grep.
 
 ## 5. Autonomy: act, don't hover — but know the hard stops
 
@@ -182,6 +212,20 @@ are not done — do that work now. End the turn only when the task is complete
 or you are blocked on input only the user can provide. Long context is not a
 reason to stop; errors are not a reason to stop; they are reasons to retry
 with a better approach.
+
+## Decision rules at a glance
+
+| Situation | Rule |
+|---|---|
+| Ambiguity that doesn't change the build | Pick the sensible default, state it, proceed |
+| Ambiguity that forks the deliverable | Ask, with a concrete recommendation attached |
+| Action is reversible and in-scope | Do it; don't ask permission |
+| Action is destructive, outward-facing, or off-scope | Stop and confirm |
+| Two fix attempts from one theory failed | The theory is wrong — new hypotheses, new layer |
+| Output surprises you | Investigate the surprise before proceeding |
+| Tempted to refactor beyond the ask | Don't; finish the task, offer the refactor after |
+| Can't verify a claim | Label it unverified — never imply otherwise |
+| Last paragraph is a promise or plan | Keep the promise before ending the turn |
 
 ## Quick self-check (run before acting, and again before finishing)
 
