@@ -35,8 +35,11 @@ automatically when a session opens in this repo.
 cp -r .claude/skills/fable-* ~/.claude/skills/
 ```
 
-**Codex / other agents:** see [packaging/codex/README.md](packaging/codex/README.md)
-for an `AGENTS.md` snippet that points Codex at the same skill files.
+**Codex / other agents (optional, unsupported):** these are Claude Code
+skills first. [packaging/codex/README.md](packaging/codex/README.md) has an
+`AGENTS.md` snippet that points other agents at the same files, provided
+as-is — it is not evaluated by the test suite and not maintained as a
+supported target.
 
 Skills can also be invoked explicitly (`/fable-debugging`) or by asking the
 model to read the relevant `SKILL.md`.

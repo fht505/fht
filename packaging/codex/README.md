@@ -1,5 +1,10 @@
 # Using the fable skills with Codex (and other AGENTS.md-based agents)
 
+> **Status: optional and unsupported.** The fable skills are built and
+> evaluated for Claude Code; nothing in `evals/` exercises this
+> integration. It is provided as-is for convenience and may lag behind
+> the skills themselves.
+
 Codex and similar agents read repository instructions from `AGENTS.md`
 rather than `.claude/skills/`. The skill files are plain Markdown, so the
 simplest integration is a routing snippet that tells the agent when to read
