@@ -1,0 +1,434 @@
+<title>Claude Code usage — past 4 weeks</title>
+<style>
+  .viz-root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11, 11, 11, 0.10);
+    --series-1: #2a78d6;
+    --series-1-lift: #3987e5;
+    --delta-good: #006300;
+    --tooltip-bg: #0b0b0b;
+    --tooltip-ink: #ffffff;
+    --tooltip-ink-2: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    .viz-root {
+      --surface-1: #1a1a19;
+      --page: #0d0d0d;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --gridline: #2c2c2a;
+      --baseline: #383835;
+      --border: rgba(255, 255, 255, 0.10);
+      --series-1: #3987e5;
+      --series-1-lift: #5598e7;
+      --delta-good: #0ca30c;
+      --tooltip-bg: #fcfcfb;
+      --tooltip-ink: #0b0b0b;
+      --tooltip-ink-2: #52514e;
+    }
+  }
+  :root[data-theme="dark"] .viz-root {
+    --surface-1: #1a1a19;
+    --page: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255, 255, 255, 0.10);
+    --series-1: #3987e5;
+    --series-1-lift: #5598e7;
+    --delta-good: #0ca30c;
+    --tooltip-bg: #fcfcfb;
+    --tooltip-ink: #0b0b0b;
+    --tooltip-ink-2: #52514e;
+  }
+  :root[data-theme="light"] .viz-root {
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --gridline: #e1e0d9;
+    --baseline: #c3c2b7;
+    --border: rgba(11, 11, 11, 0.10);
+    --series-1: #2a78d6;
+    --series-1-lift: #3987e5;
+    --delta-good: #006300;
+    --tooltip-bg: #0b0b0b;
+    --tooltip-ink: #ffffff;
+    --tooltip-ink-2: #c3c2b7;
+  }
+
+  .viz-root {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 32px 20px 48px;
+    box-sizing: border-box;
+  }
+  .viz-root *, .viz-root *::before, .viz-root *::after { box-sizing: border-box; }
+
+  .shell { max-width: 880px; margin: 0 auto; }
+
+  header.page-head { margin-bottom: 20px; }
+  .page-head h1 { font-size: 20px; font-weight: 650; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .page-head p { margin: 0; font-size: 13.5px; color: var(--text-secondary); }
+
+  .placeholder-note {
+    margin: 0 0 20px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--series-1);
+    border-radius: 8px;
+    background: var(--surface-1);
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .placeholder-note strong { color: var(--text-primary); font-weight: 600; }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .tile {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .tile .label { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; }
+  .tile .value { font-size: 28px; font-weight: 600; line-height: 1.1; }
+  .tile.hero .value { font-size: 48px; letter-spacing: -0.02em; }
+  .tile .sub { font-size: 12.5px; color: var(--text-muted); margin-top: 6px; }
+  .tile .sub .good { color: var(--delta-good); font-weight: 600; }
+
+  figure.card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px 18px;
+    margin: 0 0 12px;
+  }
+  figure.card figcaption { margin-bottom: 4px; }
+  figure.card .fig-title { font-size: 14.5px; font-weight: 600; }
+  figure.card .fig-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ---- horizontal bar chart ---- */
+  .barchart { position: relative; margin-top: 14px; }
+  .plot-grid {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    row-gap: 14px;
+    align-items: center;
+    position: relative;
+  }
+  .bar-cat {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding-right: 12px;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .track { position: relative; height: 24px; }
+  .gridlayer { position: absolute; top: -6px; bottom: -6px; left: 0; right: 0; pointer-events: none; }
+  .gridlayer .gl { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--gridline); }
+  .gridlayer .gl.zero { background: var(--baseline); }
+  .bar-hit {
+    position: absolute; top: -5px; bottom: -5px; left: 0; right: 0;
+    display: flex; align-items: center;
+    cursor: default; border-radius: 6px; outline-offset: 2px;
+  }
+  .bar-hit:focus-visible { outline: 2px solid var(--series-1); }
+  .bar {
+    height: 20px;
+    background: var(--series-1);
+    border-radius: 0 4px 4px 0;   /* rounded data end, square at baseline */
+    min-width: 2px;
+    transition: background 120ms ease;
+  }
+  .bar-hit:hover .bar, .bar-hit:focus-visible .bar { background: var(--series-1-lift); }
+  .bar-val {
+    font-size: 13px; font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+    margin-left: 8px; white-space: nowrap;
+  }
+  .axis-row {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    margin-top: 10px;
+  }
+  .axis-ticks { position: relative; height: 16px; }
+  .axis-ticks .tick {
+    position: absolute; transform: translateX(-50%);
+    font-size: 11.5px; color: var(--text-muted);
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+  .axis-ticks .tick.first { transform: none; }
+  @media (max-width: 560px) {
+    .axis-ticks .tick:nth-child(even) { display: none; }
+  }
+
+  /* ---- tooltip ---- */
+  .tt {
+    position: fixed; z-index: 10; pointer-events: none;
+    background: var(--tooltip-bg); color: var(--tooltip-ink);
+    border-radius: 8px; padding: 8px 11px;
+    font-size: 12.5px; line-height: 1.45;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    display: none; max-width: 260px;
+  }
+  .tt .tt-val { font-size: 15px; font-weight: 650; }
+  .tt .tt-cat { color: var(--tooltip-ink-2); }
+  .tt .tt-row { display: flex; justify-content: space-between; gap: 16px; color: var(--tooltip-ink-2); }
+  .tt .tt-row b { color: var(--tooltip-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  /* ---- table ---- */
+  .tablewrap { overflow-x: auto; margin-top: 12px; }
+  table.data {
+    width: 100%; border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  table.data th, table.data td { padding: 9px 12px; }
+  table.data thead th {
+    font-size: 12px; font-weight: 600; color: var(--text-muted);
+    text-align: right; border-bottom: 1px solid var(--baseline);
+    white-space: nowrap;
+  }
+  table.data thead th:first-child, table.data td:first-child { text-align: left; padding-left: 2px; }
+  table.data td {
+    text-align: right; border-bottom: 1px solid var(--gridline);
+    font-variant-numeric: tabular-nums; color: var(--text-secondary);
+    white-space: nowrap;
+  }
+  table.data td.model { color: var(--text-primary); font-weight: 550; }
+  table.data td.cost { color: var(--text-primary); font-weight: 600; }
+  table.data tr.total td { border-bottom: none; border-top: 1px solid var(--baseline); color: var(--text-primary); font-weight: 650; }
+  table.data tr:last-child td { border-bottom: none; }
+
+  footer.src { font-size: 12px; color: var(--text-muted); margin-top: 16px; }
+</style>
+
+<div class="viz-root">
+  <div class="shell">
+    <header class="page-head">
+      <h1>Claude Code usage — past 4 weeks</h1>
+      <p>API-equivalent spend by model on a Claude Max 20× plan</p>
+    </header>
+
+    <p class="placeholder-note" id="placeholderNote"><strong>Example data.</strong>
+      These are the numbers from the r/ClaudeCode post you screenshotted — send your own
+      <code>/usage</code> figures and they drop into the <code>DATA</code> block at the top of this file.</p>
+
+    <div class="kpi-row" id="kpiRow"></div>
+
+    <figure class="card">
+      <figcaption>
+        <div class="fig-title">API-equivalent cost by model</div>
+        <div class="fig-sub" id="barSub"></div>
+      </figcaption>
+      <div class="barchart">
+        <div class="plot-grid" id="plotGrid"></div>
+        <div class="axis-row">
+          <div></div>
+          <div class="axis-ticks" id="axisTicks"></div>
+        </div>
+      </div>
+    </figure>
+
+    <figure class="card">
+      <figcaption>
+        <div class="fig-title">Tokens by model</div>
+        <div class="fig-sub">Every value in the chart above, plus the token detail</div>
+      </figcaption>
+      <div class="tablewrap">
+        <table class="data" aria-label="Token usage by model">
+          <thead>
+            <tr><th>Model</th><th>Cost</th><th>Input</th><th>Output</th><th>Cache write</th><th>Cache read</th></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </figure>
+
+    <footer class="src" id="srcNote"></footer>
+  </div>
+</div>
+<div class="tt" id="tt" role="status"></div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────
+  // DATA — swap these numbers for your own /usage figures.
+  // Token counts are raw token totals; cost is USD API-equivalent.
+  // Everything on the page renders from this one object.
+  // ─────────────────────────────────────────────────────────────
+  const DATA = {
+    period: "past 4 weeks",
+    planLabel: "Claude Max 20× plan",
+    planPaidUSD: 200,
+    isExample: true, // set false once your own numbers are in
+    models: [
+      { name: "Opus 4.8",   cost: 6166, input: 17_600_000, output: 20_200_000, cacheWrite: 260_000_000, cacheRead: 7_590_000_000 },
+      { name: "Opus 4.7",   cost: 910,  input: 56_000,     output: 4_100_000,  cacheWrite: 36_200_000,  cacheRead: 1_100_000_000 },
+      { name: "Sonnet 4.6", cost: 924,  input: 44_000,     output: 3_000_000,  cacheWrite: 46_800_000,  cacheRead: 2_340_000_000 },
+      { name: "Haiku 4.5",  cost: 27,   input: 71_000,     output: 362_000,    cacheWrite: 6_900_000,   cacheRead: 164_000_000 },
+    ],
+  };
+
+  DATA.models.sort((a, b) => b.cost - a.cost);
+
+  const sum = (key) => DATA.models.reduce((a, m) => a + m[key], 0);
+  const totalCost = sum("cost");
+  const totalTokens = sum("input") + sum("output") + sum("cacheWrite") + sum("cacheRead");
+
+  const usd = (n) => "$" + Math.round(n).toLocaleString("en-US");
+  function compactTok(n) {
+    if (n >= 1e9) return trim(n / 1e9) + "B";
+    if (n >= 1e6) return trim(n / 1e6) + "M";
+    if (n >= 1e3) return trim(n / 1e3) + "K";
+    return String(n);
+  }
+  function trim(x) {
+    const s = x >= 100 ? Math.round(x).toString() : x.toFixed(x >= 10 ? 1 : 2);
+    return s.replace(/\.0+$/, "").replace(/(\.\d*[1-9])0+$/, "$1");
+  }
+
+  // ---- KPI tiles ----
+  function tile(label, value, sub, hero) {
+    const t = document.createElement("div");
+    t.className = "tile" + (hero ? " hero" : "");
+    const l = document.createElement("div"); l.className = "label"; l.textContent = label;
+    const v = document.createElement("div"); v.className = "value"; v.textContent = value;
+    t.append(l, v);
+    if (sub) {
+      const s = document.createElement("div"); s.className = "sub";
+      if (sub.good) { const g = document.createElement("span"); g.className = "good"; g.textContent = sub.good; s.append(g, document.createTextNode(" " + sub.rest)); }
+      else s.textContent = sub.rest;
+      t.append(s);
+    }
+    return t;
+  }
+  const kpiRow = document.getElementById("kpiRow");
+  kpiRow.append(
+    tile("API-equivalent spend", usd(totalCost), { rest: DATA.period }, true),
+    tile("What the plan cost", usd(DATA.planPaidUSD), { rest: DATA.planLabel }),
+    tile("Plan value", trim(totalCost / DATA.planPaidUSD) + "×", { good: "↑", rest: "vs. paying the API rate" }),
+    tile("Tokens processed", compactTok(totalTokens), { rest: compactTok(sum("cacheRead")) + " of it cache reads" }),
+  );
+
+  document.getElementById("barSub").textContent =
+    DATA.models[0].name + " is " + Math.round((DATA.models[0].cost / totalCost) * 100) + "% of the total";
+  document.getElementById("srcNote").textContent =
+    (DATA.isExample ? "Example data via u/35MakeMoney on r/ClaudeCode · " : "") +
+    "Costs are what this usage would bill at raw API prices, " + DATA.period + ".";
+  if (!DATA.isExample) document.getElementById("placeholderNote").remove();
+
+  // ---- bar chart ----
+  const maxCost = Math.max(...DATA.models.map((m) => m.cost));
+  const step = maxCost > 4000 ? 2000 : maxCost > 2000 ? 1000 : maxCost > 800 ? 500 : 100;
+  const axisMax = Math.ceil(maxCost / step) * step;
+  const pct = (v) => (v / axisMax) * 100;
+
+  const grid = document.getElementById("plotGrid");
+  const ticks = []; for (let v = 0; v <= axisMax; v += step) ticks.push(v);
+
+  DATA.models.forEach((m) => {
+    const cat = document.createElement("div"); cat.className = "bar-cat"; cat.textContent = m.name;
+    const track = document.createElement("div"); track.className = "track";
+
+    const gl = document.createElement("div"); gl.className = "gridlayer";
+    ticks.forEach((v) => {
+      const line = document.createElement("div");
+      line.className = "gl" + (v === 0 ? " zero" : "");
+      line.style.left = pct(v) + "%";
+      gl.append(line);
+    });
+
+    const hit = document.createElement("div");
+    hit.className = "bar-hit"; hit.tabIndex = 0;
+    hit.setAttribute("role", "img");
+    hit.setAttribute("aria-label", m.name + ": " + usd(m.cost) + ", " + Math.round((m.cost / totalCost) * 100) + "% of total");
+    const bar = document.createElement("div"); bar.className = "bar"; bar.style.width = pct(m.cost) + "%";
+    const val = document.createElement("div"); val.className = "bar-val"; val.textContent = usd(m.cost);
+    hit.append(bar, val);
+    wireTooltip(hit, m);
+
+    track.append(gl, hit);
+    grid.append(cat, track);
+  });
+
+  const axisTicks = document.getElementById("axisTicks");
+  ticks.forEach((v) => {
+    const t = document.createElement("div");
+    t.className = "tick" + (v === 0 ? " first" : "");
+    t.style.left = pct(v) + "%";
+    t.textContent = v === 0 ? "$0" : "$" + v.toLocaleString("en-US");
+    axisTicks.append(t);
+  });
+
+  // ---- tooltip (enhances; every value is also in the labels + table) ----
+  const tt = document.getElementById("tt");
+  function fillTooltip(m) {
+    tt.textContent = "";
+    const v = document.createElement("div"); v.className = "tt-val"; v.textContent = usd(m.cost);
+    const c = document.createElement("div"); c.className = "tt-cat";
+    c.textContent = m.name + " · " + Math.round((m.cost / totalCost) * 100) + "% of total";
+    tt.append(v, c);
+    [["Input", m.input], ["Output", m.output], ["Cache write", m.cacheWrite], ["Cache read", m.cacheRead]].forEach(([k, n]) => {
+      const r = document.createElement("div"); r.className = "tt-row";
+      const kk = document.createElement("span"); kk.textContent = k;
+      const vv = document.createElement("b"); vv.textContent = compactTok(n) + " tok";
+      r.append(kk, vv); tt.append(r);
+    });
+  }
+  function placeTooltip(x, y) {
+    tt.style.display = "block";
+    const r = tt.getBoundingClientRect();
+    let left = x + 14, top = y - r.height - 10;
+    if (left + r.width > window.innerWidth - 8) left = x - r.width - 14;
+    if (top < 8) top = y + 16;
+    tt.style.left = Math.max(8, left) + "px";
+    tt.style.top = top + "px";
+  }
+  function wireTooltip(el, m) {
+    el.addEventListener("pointermove", (e) => { fillTooltip(m); placeTooltip(e.clientX, e.clientY); });
+    el.addEventListener("pointerleave", () => { tt.style.display = "none"; });
+    el.addEventListener("focus", () => {
+      fillTooltip(m);
+      const r = el.getBoundingClientRect();
+      placeTooltip(r.left + Math.min(r.width * 0.4, 200), r.top);
+    });
+    el.addEventListener("blur", () => { tt.style.display = "none"; });
+  }
+
+  // ---- table ----
+  const tbody = document.getElementById("tableBody");
+  function cell(text, cls) { const td = document.createElement("td"); if (cls) td.className = cls; td.textContent = text; return td; }
+  DATA.models.forEach((m) => {
+    const tr = document.createElement("tr");
+    tr.append(
+      cell(m.name, "model"), cell(usd(m.cost), "cost"),
+      cell(compactTok(m.input) + " tok"), cell(compactTok(m.output) + " tok"),
+      cell(compactTok(m.cacheWrite) + " tok"), cell(compactTok(m.cacheRead) + " tok"),
+    );
+    tbody.append(tr);
+  });
+  const totalRow = document.createElement("tr"); totalRow.className = "total";
+  totalRow.append(
+    cell("Total"), cell(usd(totalCost)),
+    cell(compactTok(sum("input")) + " tok"), cell(compactTok(sum("output")) + " tok"),
+    cell(compactTok(sum("cacheWrite")) + " tok"), cell(compactTok(sum("cacheRead")) + " tok"),
+  );
+  tbody.append(totalRow);
+</script>
