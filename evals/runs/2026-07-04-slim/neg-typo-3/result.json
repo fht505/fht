@@ -1,0 +1,4 @@
+{
+  "summary": "Fixed the spelling mistake in docs/notes.md by correcting \"recieve\" to \"receive\".",
+  "patch": "diff --git a/docs/notes.md b/docs/notes.md\nindex 82173eb..daff000 100644\n--- a/docs/notes.md\n+++ b/docs/notes.md\n@@ -1,4 +1,4 @@\n # Maintainer notes\n \n Release checklist lives in CHANGELOG.md. Before tagging a release, please\n-recieve sign-off from the eval owner and confirm RESULTS.md is current.\n+receive sign-off from the eval owner and confirm RESULTS.md is current."
+}

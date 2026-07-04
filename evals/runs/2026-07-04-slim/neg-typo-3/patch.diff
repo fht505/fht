@@ -1,0 +1,10 @@
+diff --git a/docs/notes.md b/docs/notes.md
+index 82173eb..daff000 100644
+--- a/docs/notes.md
++++ b/docs/notes.md
+@@ -1,4 +1,4 @@
+ # Maintainer notes
+ 
+ Release checklist lives in CHANGELOG.md. Before tagging a release, please
+-recieve sign-off from the eval owner and confirm RESULTS.md is current.
++receive sign-off from the eval owner and confirm RESULTS.md is current.

@@ -1,0 +1,7 @@
+You are working in a checkout of a repository. Task: answer this question — what open-source license is this repository under, and does that license permit commercial use?
+
+Your final message must be EXACTLY one fenced JSON object and nothing else, with these string keys:
+- "answer": your answer in one or two sentences
+- "files_consulted": a JSON array of the file paths you read
+
+Your final message is consumed by an automated harness, not read by a human.

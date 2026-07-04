@@ -1,2 +1,7 @@
-skill files referenced in transcript:
+skill files deliberately accessed (tool-use inputs):
 (none)
+
+skill paths appearing only in tool results (listings; not reads):
+(none)
+
+verdict: NOT LOADED

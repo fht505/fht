@@ -1,0 +1,7 @@
+You are working in a checkout of a repository. Task: fix the spelling mistake in docs/notes.md.
+
+Your final message must be EXACTLY one fenced JSON object and nothing else, with these string keys:
+- "summary": one sentence describing what you changed
+- "patch": the verbatim output of `git diff` covering every change you made
+
+Your final message is consumed by an automated harness, not read by a human.

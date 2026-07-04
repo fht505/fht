@@ -1,0 +1,14 @@
+skill files deliberately accessed (tool-use inputs):
+(none)
+
+skill paths appearing only in tool results (listings; not reads):
+.claude/skills/fable-code-review/SKILL.md
+.claude/skills/fable-debugging/SKILL.md
+.claude/skills/fable-mindset/SKILL.md
+.claude/skills/fable-mindset/references/codebase-navigation.md
+.claude/skills/fable-mindset/references/communication.md
+.claude/skills/fable-mindset/references/planning.md
+.claude/skills/fable-verification/SKILL.md
+.claude/skills/fable-verification/references/edge-cases.md
+
+verdict: NOT LOADED
