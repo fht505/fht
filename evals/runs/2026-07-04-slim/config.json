@@ -1,0 +1,14 @@
+{
+  "campaign": "2026-07-04-slim",
+  "date": "2026-07-04",
+  "model": "claude-opus-4-8 (Agent tool model alias: opus)",
+  "harness": "Claude Code Agent tool, subagent_type=general-purpose, isolation=worktree, background",
+  "tasks": {
+    "05-duplicate-orders": {"conditions": {"A-control": 5, "B-auto": 5, "C-explicit": 5}},
+    "neg-typo": {"conditions": {"B-auto": 3}},
+    "neg-license": {"conditions": {"B-auto": 3}}
+  },
+  "prompts": "evals/runner/prompts/ (verbatim)",
+  "grading": "evals/runner/grade.sh + rubric.md per task",
+  "skills_version": "0.2.0"
+}

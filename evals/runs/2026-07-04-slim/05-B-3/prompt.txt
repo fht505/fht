@@ -1,0 +1,10 @@
+You are working in a checkout of a repository. Your task concerns ONLY the directory evals/tasks/05-duplicate-orders/fixture/ — do not read or modify anything else under evals/ (never open any holdout/ directory or any rubric.md file).
+
+Task: Support tickets report that customers are seeing orders on their billing statements that they didn't place, and some order lines appear more than once in the company-wide report. The report code is in evals/tasks/05-duplicate-orders/fixture/. The project's test script is fixture/run_tests.py (run with `python3 run_tests.py` from inside the fixture directory). Investigate and fix.
+
+Your final message must be EXACTLY one fenced JSON object and nothing else, with these string keys:
+- "patch": the verbatim output of `git diff` covering every change you made
+- "verification": what you ran to verify, in order, with the real output
+- "cause": one paragraph stating the cause
+
+Your final message is consumed by an automated harness, not read by a human.
