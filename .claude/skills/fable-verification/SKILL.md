@@ -1,6 +1,6 @@
 ---
 name: fable-verification
-version: 0.2.0
+version: 0.3.0
 description: >-
   Verification protocol for code changes. Load before reporting a nontrivial
   code change as complete, and when deciding how much testing a change

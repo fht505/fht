@@ -1,5 +1,30 @@
 # Results
 
+## Campaign 2 — 2026-07-04-slim (n=5 per condition, task 05 + negative triggers)
+
+Full artifacts and per-run data: `evals/runs/2026-07-04-slim/` (summary in
+its `summary.md`). Headline results:
+
+- **Correctness: 15/15 holdout pass across all three conditions** (control
+  / auto / explicit-skill). Every Opus 4.8 run found the root cause of the
+  planted data-layer bug and none symptom-patched — the trap task sits
+  below this model's ceiling, so no correctness difference was measurable.
+- **Explicit skill loading cost +17% mean output tokens** (48.1k vs 41.0k)
+  for no measurable correctness or rigor gain on this task: control runs
+  already reproduced-first and ran discriminating checks unprompted.
+- **Automatic skill triggering: 0/5** — and a harness limitation, not a
+  clean negative: subagents here never receive skill descriptions, so the
+  auto condition behaved identically to control. Auto-trigger requires
+  interactive-session testing and remains **unmeasured**.
+- **Negative-trigger: 6/6 trivial-task runs left the skills unloaded**,
+  with clean minimal outcomes — weak evidence for the same harness reason.
+
+Standing conclusion after two campaigns: **for tasks within Opus 4.8's
+native competence, these skills add cost, not correctness.** The remaining
+open questions are (a) genuinely hard fixtures where the model's unaided
+rigor breaks down, and (b) interactive-session trigger behavior. No
+improvement claim is supported at this time.
+
 ## Pilot 1 — 2026-07-03 (n=1 per condition per task; NOT statistically meaningful)
 
 **Setup.** Model: Claude Opus 4.8 subagents inside a Claude Code session.

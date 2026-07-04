@@ -1,0 +1,9 @@
+skill files deliberately accessed (tool-use inputs):
+.claude/skills/fable-debugging/SKILL.md
+.claude/skills/fable-mindset/SKILL.md
+.claude/skills/fable-verification/SKILL.md
+
+skill paths appearing only in tool results (listings; not reads):
+(none)
+
+verdict: LOADED: fable-debugging, fable-mindset, fable-verification

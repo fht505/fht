@@ -1,6 +1,6 @@
 ---
 name: fable-code-review
-version: 0.2.0
+version: 0.3.0
 description: >-
   Method for reviewing code changes. Load when reviewing a pull request,
   diff, or patch — someone else's or your own finished work — with the goal

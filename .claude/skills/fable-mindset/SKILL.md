@@ -1,6 +1,6 @@
 ---
 name: fable-mindset
-version: 0.2.0
+version: 0.3.0
 description: >-
   Judgment heuristics for multi-step software-engineering work. Load when a
   task involves several dependent steps, ambiguous or conflicting scope, an

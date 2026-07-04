@@ -3,6 +3,30 @@
 All notable changes to the fable skill set. Follows
 [Keep a Changelog](https://keepachangelog.com/) and semantic versioning.
 
+## [0.3.0] - 2026-07-04
+
+Evaluation release — no changes to skill prose.
+
+### Added
+- Task 05 (root-cause trap): symptom in the report layer, cause in the
+  data layer; holdout rejects symptom patches. Validated in both
+  directions.
+- Campaign runner: committed verbatim prompts per condition, `grade.sh`,
+  per-run artifact layout, negative-trigger fixtures.
+- Campaign 2026-07-04-slim: 21 Opus 4.8 runs (n=5 × control/auto/explicit
+  on task 05 + 6 negative-trigger runs) with per-run patches, grades,
+  usage data, and skill-access classification committed under
+  `evals/runs/`.
+
+### Findings (see evals/RESULTS.md)
+- 15/15 correctness across conditions (task below model ceiling).
+- Explicit skill loading: +17% tokens, no measurable gain on this task.
+- Auto-trigger unmeasurable in subagent harness (0/5; needs interactive
+  sessions). Negative triggers 6/6 clean, same caveat.
+
+### Changed
+- Codex packaging explicitly labeled optional and unsupported.
+
 ## [0.2.0] - 2026-07-03
 
 ### Changed

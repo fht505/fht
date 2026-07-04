@@ -1,6 +1,6 @@
 ---
 name: fable-debugging
-version: 0.2.0
+version: 0.3.0
 description: >-
   Hypothesis-driven debugging method. Load when diagnosing a failure whose
   cause is not yet known: bug reports, failing or flaky tests, crashes,
