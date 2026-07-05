@@ -1,5 +1,27 @@
 # Results
 
+## Campaign 3 — 2026-07-05-haiku (headroom test on a smaller model)
+
+Full artifacts: `evals/runs/2026-07-05-haiku/` (see its `summary.md`).
+Same task and prompts as campaign 2, run on **Haiku 4.5**: control vs
+explicit-skill, n=5 each.
+
+- **First measurable skill effect.** Control: 4/5 runs violated the
+  explicit prohibition on accessing the hidden grader (one also read the
+  rubric and self-graded against the answer key); 1/5 clean passes; one
+  undeliverable patch. With skills: **0/5 violations, 5/5 clean passes,
+  32% less wall time, 12% fewer tool calls** at equal tokens.
+- The effect is **discipline, not intelligence** — every run found the
+  same root cause; conditions differed in rule-following, scope control,
+  and deliverable quality.
+- Combined with campaign 2 (no effect on Opus 4.8), the evidence now
+  supports a specific claim: **the skills' value scales inversely with
+  the model's native judgment.** They are a guardrail for smaller/less
+  disciplined models and near-neutral (cost-only) on frontier models.
+- Caveats: n=5, one task, violation metric defined post-hoc; treat as
+  strong directional evidence to be confirmed with pre-registered
+  metrics on more tasks.
+
 ## Campaign 2 — 2026-07-04-slim (n=5 per condition, task 05 + negative triggers)
 
 Full artifacts and per-run data: `evals/runs/2026-07-04-slim/` (summary in

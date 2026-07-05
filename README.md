@@ -6,7 +6,7 @@ as Claude Code and Codex: when to act vs. ask, how to debug by hypothesis,
 how much verification a change needs, and how to review code for
 consequential defects.
 
-Current version: **0.3.0** (see [CHANGELOG.md](CHANGELOG.md)). MIT licensed.
+Current version: **0.3.1** (see [CHANGELOG.md](CHANGELOG.md)). MIT licensed.
 
 ## The skills
 

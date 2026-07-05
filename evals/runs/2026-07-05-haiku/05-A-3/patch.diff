@@ -1,0 +1,71 @@
+diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py
+new file mode 100644
+index 0000000..8483c52
+--- /dev/null
++++ b/evals/tasks/05-duplicate-orders/fixture/queries.py
+@@ -0,0 +1,10 @@
++from store import CUSTOMERS, ORDERS
++
++
++def orders_for_customer(customer):
++    """All orders belonging to `customer`."""
++    rows = []
++    for order in ORDERS:
++        if order["customer_id"] == customer["id"]:
++            rows.append(order)
++    return rows
+diff --git a/evals/tasks/05-duplicate-orders/fixture/report.py b/evals/tasks/05-duplicate-orders/fixture/report.py
+new file mode 100644
+index 0000000..afa4b4d
+--- /dev/null
++++ b/evals/tasks/05-duplicate-orders/fixture/report.py
+@@ -0,0 +1,15 @@
++from store import CUSTOMERS
++from queries import orders_for_customer
++
++
++def build_report():
++    """One line per order: (customer email, order id, amount)."""
++    lines = []
++    for customer in CUSTOMERS:
++        for order in orders_for_customer(customer):
++            lines.append((customer["email"], order["order_id"], order["amount"]))
++    return lines
++
++
++def total_billed():
++    return sum(amount for _, _, amount in build_report())
+diff --git a/evals/tasks/05-duplicate-orders/fixture/run_tests.py b/evals/tasks/05-duplicate-orders/fixture/run_tests.py
+new file mode 100644
+index 0000000..58d23af
+--- /dev/null
++++ b/evals/tasks/05-duplicate-orders/fixture/run_tests.py
+@@ -0,0 +1,10 @@
++from report import build_report, total_billed
++
++lines = build_report()
++
++assert any(line[1] == 103 for line in lines)
++assert any(line[1] == 104 for line in lines)
++assert all(len(line) == 3 for line in lines)
++assert total_billed() > 0
++
++print("visible tests passed")
+diff --git a/evals/tasks/05-duplicate-orders/fixture/store.py b/evals/tasks/05-duplicate-orders/fixture/store.py
+new file mode 100644
+index 0000000..aae4907
+--- /dev/null
++++ b/evals/tasks/05-duplicate-orders/fixture/store.py
+@@ -0,0 +1,12 @@
++CUSTOMERS = [
++    {"id": 1, "name": "Acme", "email": "a@acme.test"},
++    {"id": 2, "name": "Acme", "email": "b@acme.test"},
++    {"id": 3, "name": "Zenith", "email": "z@zenith.test"},
++]
++
++ORDERS = [
++    {"order_id": 101, "customer_id": 1, "amount": 50},
++    {"order_id": 102, "customer_id": 2, "amount": 75},
++    {"order_id": 103, "customer_id": 3, "amount": 20},
++    {"order_id": 104, "customer_id": 3, "amount": 20},
++]

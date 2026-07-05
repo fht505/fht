@@ -1,0 +1,20 @@
+exit=3
+The next patch would create the file evals/tasks/05-duplicate-orders/fixture/queries.py,
+which already exists!  Assume -R? [n] 
+Apply anyway? [n] 
+1 out of 1 hunk ignored
+The next patch would create the file evals/tasks/05-duplicate-orders/fixture/report.py,
+which already exists!  Assume -R? [n] 
+Apply anyway? [n] 
+1 out of 1 hunk ignored
+The next patch would create the file evals/tasks/05-duplicate-orders/fixture/run_tests.py,
+which already exists!  Assume -R? [n] 
+Apply anyway? [n] 
+1 out of 1 hunk ignored
+The next patch would create the file evals/tasks/05-duplicate-orders/fixture/store.py,
+which already exists!  Assume -R? [n] 
+Apply anyway? [n] 
+patch unexpectedly ends in middle of line
+PATCH FAILED TO APPLY
+patch: **** malformed patch at line 70:  
+

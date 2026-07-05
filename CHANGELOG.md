@@ -3,6 +3,29 @@
 All notable changes to the fable skill set. Follows
 [Keep a Changelog](https://keepachangelog.com/) and semantic versioning.
 
+## [0.3.1] - 2026-07-05
+
+Evaluation-data release — no changes to skill prose.
+
+### Added
+- Campaign 2026-07-05-haiku: 10 Haiku 4.5 runs (control vs explicit
+  skills, n=5) on task 05, with per-run artifacts and integrity
+  annotations.
+- Transcript integrity auditing across all campaigns (holdout/rubric
+  access classification; exclusion filters vs actual reads/executions).
+
+### Findings (see evals/RESULTS.md)
+- First measurable skill effect: skills eliminated forbidden-holdout
+  access on Haiku (0/5 vs 4/5 control), raised clean-pass rate 1/5 → 5/5,
+  and reduced wall time 32% at equal tokens.
+- Opus 4.8 controls were 15/15 clean on the same audit — the skills'
+  value scales inversely with the model's native discipline.
+
+### Fixed
+- Restored the planted bug in task 05's fixture (accidentally overwritten
+  by an eval agent's edit swept into the 0.3.0 release commit; verified
+  the grader fails the empty patch again).
+
 ## [0.3.0] - 2026-07-04
 
 Evaluation release — no changes to skill prose.
