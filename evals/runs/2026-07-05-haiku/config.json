@@ -1,0 +1,11 @@
+{
+  "campaign": "2026-07-05-haiku",
+  "date": "2026-07-05",
+  "model": "claude-haiku-4-5-20251001 (Agent tool model alias: haiku)",
+  "harness": "Claude Code Agent tool, subagent_type=general-purpose, isolation=worktree, background",
+  "hypothesis": "Skills add rigor headroom on a smaller model where Opus 4.8 showed none",
+  "tasks": {"05-duplicate-orders": {"conditions": {"A-control": 5, "C-explicit": 5}}},
+  "baseline_commit_contains_planted_bug": "verified before launch",
+  "prompts": "evals/runner/prompts/ (verbatim; auto condition omitted per campaign-2 harness finding)",
+  "skills_version": "0.3.0"
+}
