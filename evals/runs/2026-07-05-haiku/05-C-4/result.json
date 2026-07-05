@@ -1,0 +1,5 @@
+{
+  "patch": "diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py\nindex 55fa844..8483c52 100644\n--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -5,7 +5,6 @@ def orders_for_customer(customer):\n     \"\"\"All orders belonging to `customer`.\"\"\"\n     rows = []\n     for order in ORDERS:\n-        owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if order[\"customer_id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "Before fix: 6 report lines (101/102 twice), total 290, both Acme customers saw both orders. After fix: run_tests.py passed; 4 lines; total 165; no duplicate order IDs; correct per-customer isolation; 'All 5 verification tests passed'.",
+  "cause": "orders_for_customer matched orders by customer name; two 'Acme' customers with different IDs each received both customers' orders. Fix compares order['customer_id'] == customer['id']."
+}

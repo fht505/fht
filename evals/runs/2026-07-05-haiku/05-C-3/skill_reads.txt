@@ -1,0 +1,4 @@
+skill files referenced in transcript:
+.claude/skills/fable-debugging/SKILL.md
+.claude/skills/fable-mindset/SKILL.md
+.claude/skills/fable-verification/SKILL.md

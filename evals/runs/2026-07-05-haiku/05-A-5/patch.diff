@@ -1,0 +1,12 @@
+diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py
+index 55fa844..19874bc 100644
+--- a/evals/tasks/05-duplicate-orders/fixture/queries.py
++++ b/evals/tasks/05-duplicate-orders/fixture/queries.py
+@@ -6,6 +6,6 @@ def orders_for_customer(customer):
+     rows = []
+     for order in ORDERS:
+         owner = next(c for c in CUSTOMERS if c["id"] == order["customer_id"])
+-        if owner["name"] == customer["name"]:
++        if owner["id"] == customer["id"]:
+             rows.append(order)
+     return rows

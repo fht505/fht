@@ -1,0 +1,5 @@
+{
+  "patch": "--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -5,7 +5,6 @@ def orders_for_customer(customer):\n     \"\"\"All orders belonging to `customer`.\"\"\"\n     rows = []\n     for order in ORDERS:\n-        owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if order[\"customer_id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "run_tests.py -> visible tests passed. Report after fix: 4 lines, total billed 165. (No pre-fix reproduction shown in report.)",
+  "cause": "orders_for_customer matched by customer name instead of id; both 'Acme' customers received orders 101/102, duplicating report lines. Fix compares order.customer_id with customer.id."
+}

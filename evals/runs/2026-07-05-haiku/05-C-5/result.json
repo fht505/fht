@@ -1,0 +1,5 @@
+{
+  "patch": "diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py\nindex 55fa844..19874bc 100644\n--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -6,6 +6,6 @@ def orders_for_customer(customer):\n     rows = []\n     for order in ORDERS:\n         owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if owner[\"id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "run_tests.py -> visible tests passed. Duplicate check: before fix 101/102 each twice; after fix every order exactly once. Report: 4 lines as expected. Totals: 290 before, 165 after. Cross-customer billing verified per customer.",
+  "cause": "orders_for_customer compared customer names (owner['name'] == customer['name']); two distinct 'Acme' customers each received both customers' orders, duplicating lines and inflating totals. Fix compares ids (owner['id'] == customer['id'])."
+}

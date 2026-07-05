@@ -1,0 +1,5 @@
+{
+  "patch": "--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -5,7 +5,6 @@ def orders_for_customer(customer):\n     \"\"\"All orders belonging to `customer`.\"\"\"\n     rows = []\n     for order in ORDERS:\n-        owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if order[\"customer_id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "1. run_tests.py passed. 2. Report BEFORE fix: 6 lines, 101/102 twice each, total 290. 3. Applied id-match fix. 4. run_tests.py passed. 5. Report after: 4 lines, total 165, duplicate order IDs []. 6. Each order once with correct email.",
+  "cause": "Name-vs-id join in orders_for_customer: two customers named 'Acme' with different ids each matched both customers' orders, duplicating 101/102 in the report. Fix joins on customer_id directly."
+}

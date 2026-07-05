@@ -1,0 +1,5 @@
+{
+  "patch": "diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py\nindex 55fa844..8483c52 100644\n--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -5,7 +5,6 @@ def orders_for_customer(customer):\n     \"\"\"All orders belonging to `customer`.\"\"\"\n     rows = []\n     for order in ORDERS:\n-        owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if order[\"customer_id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "run_tests.py -> visible tests passed. Before fix: total 290, each Acme saw both accounts' orders. After fix: total 165; a@acme 1 order (101), b@acme 1 order (102), zenith 2 orders (103,104).",
+  "cause": "orders_for_customer compared customer names; shared name 'Acme' returned both customers' orders, doubling lines and total (290 vs 165). Fix compares order['customer_id'] == customer['id']."
+}

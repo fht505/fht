@@ -1,0 +1,5 @@
+{
+  "patch": "diff --git a/evals/tasks/05-duplicate-orders/fixture/queries.py b/evals/tasks/05-duplicate-orders/fixture/queries.py\nindex 55fa844..19874bc 100644\n--- a/evals/tasks/05-duplicate-orders/fixture/queries.py\n+++ b/evals/tasks/05-duplicate-orders/fixture/queries.py\n@@ -6,6 +6,6 @@ def orders_for_customer(customer):\n     rows = []\n     for order in ORDERS:\n         owner = next(c for c in CUSTOMERS if c[\"id\"] == order[\"customer_id\"])\n-        if owner[\"name\"] == customer[\"name\"]:\n+        if owner[\"id\"] == customer[\"id\"]:\n             rows.append(order)\n     return rows",
+  "verification": "run_tests.py -> visible tests passed. Manual report check: 4 sorted lines, total 165, each order once with correct email.",
+  "cause": "orders_for_customer matched customers by name; customers sharing a company name received each other's orders, duplicating report lines. Fix joins on id."
+}
