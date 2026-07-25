@@ -1,3 +1,29 @@
 __pycache__/
 *.pyc
 .claude/worktrees/
+
+# Credentials — never committed, anywhere in the tree.
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+node_modules/
+
+# Design source and print masters: large binaries, and the print masters are
+# regenerable from the sources with `node ops.mjs art`.
+station/ops/art/
+
+# Live operational state pulled from Printify. orders.json is redacted before it
+# is written (see ledger.mjs), but it and the product/ledger rolls are per-shop
+# runtime data, not source — they do not belong in the repo's history.
+station/ops/state/*
+!station/ops/state/README.md
+!station/ops/state/signals.json
+!station/ops/state/lanes.json
+
+# Generated from gen-listings.mjs + config.json. It bakes in the real shop name,
+# so it is built locally rather than committed with a placeholder in it.
+station/ops/BATCH-01.listings.json
